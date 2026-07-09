@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Swallow } from "./Swallow";
 
 export function Distillery() {
   return (
@@ -78,12 +77,14 @@ export function Distillery() {
           transition={{ duration: 1.2 }}
           className="relative flex items-center justify-center"
         >
-          {/* 먹색 라벨 재현 */}
+          {/* 실제 라벨 원화 */}
           <div className="relative bg-black border border-white/10 w-64 md:w-80 aspect-[3/4] flex flex-col items-center justify-center p-10">
-            <span className="font-brush text-7xl md:text-8xl leading-none">
-              제비
-            </span>
-            <Swallow className="w-16 h-16 md:w-20 md:h-20 text-paper mt-4" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/label-front.png"
+              alt="제비 라벨 붓글씨 원화"
+              className="w-44 md:w-56 h-auto"
+            />
             <span className="font-latin text-[10px] tracking-[0.3em] text-paper-dim mt-8">
               ABV 17% / 360ml
             </span>

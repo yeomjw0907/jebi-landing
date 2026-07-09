@@ -8,7 +8,7 @@ import {
   useReducedMotion,
   MotionValue,
 } from "framer-motion";
-import { Bottle } from "./Bottle";
+/* eslint-disable @next/next/no-img-element */
 
 const CHAPTERS = [
   {
@@ -115,12 +115,17 @@ export function ScrollStage() {
           style={{ background: glowBg }}
         />
 
-        {/* 병 */}
+        {/* 병 — 실사 컷아웃 */}
         <motion.div
           style={{ x, rotate, scale }}
           className="absolute inset-0 flex items-center justify-center z-10"
         >
-          <Bottle className="h-[56svh] md:h-[62svh] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)]" />
+          <img
+            src="/bottle-cutout.png"
+            alt="제비 360ml 병"
+            className="h-[56svh] md:h-[62svh] w-auto drop-shadow-[0_40px_70px_rgba(0,0,0,0.85)]"
+            style={{ filter: "brightness(0.96) contrast(1.04)" }}
+          />
         </motion.div>
 
         {/* 챕터 텍스트 */}

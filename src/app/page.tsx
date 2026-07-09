@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { ScrollStage } from "@/components/ScrollStage";
 import { Specs } from "@/components/Specs";
 import { Serve } from "@/components/Serve";
+import { Scenes } from "@/components/Scenes";
 import { Distillery } from "@/components/Distillery";
 import { Footer } from "@/components/Footer";
 import { FlyingSwallow } from "@/components/FlyingSwallow";
@@ -16,6 +17,7 @@ export default function Home() {
       <ScrollStage />
       <Specs />
       <Serve />
+      <Scenes />
       <Distillery />
       <Footer />
     </main>
