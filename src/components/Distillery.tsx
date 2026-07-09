@@ -1,6 +1,13 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
+
+const MINI_STATS = [
+  { label: "위치", value: "세종 조치원" },
+  { label: "좌표", value: "36.60°N 127.29°E" },
+  { label: "대표 브랜드", value: "삭 SAK" },
+];
 
 export function Distillery() {
   return (
@@ -49,6 +56,27 @@ export function Distillery() {
             </p>
           </div>
 
+          {/* 미니 스탯 */}
+          <div
+            className="mt-10 grid grid-cols-3 divide-x border-y py-5"
+            style={{
+              borderColor: "var(--line-dark)",
+              // divide 색상
+              ["--tw-divide-opacity" as string]: 1,
+            }}
+          >
+            {MINI_STATS.map((s) => (
+              <div key={s.label} className="px-4 first:pl-0">
+                <div className="font-latin text-[9px] md:text-[10px] tracking-[0.3em] text-paper-dim/70 mb-1.5">
+                  {s.label}
+                </div>
+                <div className="font-display text-xs md:text-sm text-paper">
+                  {s.value}
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="flex flex-wrap gap-4 mt-10">
             <a
               href="https://044yangjo.com/"
@@ -76,10 +104,14 @@ export function Distillery() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 1.2 }}
           className="relative flex items-center justify-center"
+          style={{ perspective: 900 }}
         >
-          {/* 실제 라벨 원화 */}
-          <div className="relative bg-black border border-white/10 w-64 md:w-80 aspect-[3/4] flex flex-col items-center justify-center p-10">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* 실제 라벨 원화 — 3D 틸트 + 광택 스윕 */}
+          <motion.div
+            whileHover={{ rotateY: -8, rotateX: 4, y: -6 }}
+            transition={{ type: "spring", stiffness: 180, damping: 18 }}
+            className="group relative bg-black border border-white/10 w-64 md:w-80 aspect-[3/4] flex flex-col items-center justify-center p-10 shadow-[0_40px_80px_rgba(0,0,0,0.6)]"
+          >
             <img
               src="/label-front.png"
               alt="제비 라벨 붓글씨 원화"
@@ -88,6 +120,10 @@ export function Distillery() {
             <span className="font-latin text-[10px] tracking-[0.3em] text-paper-dim mt-8">
               ABV 17% / 360ml
             </span>
+            {/* 광택 스윕 */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute top-0 -left-3/4 h-full w-1/2 rotate-12 bg-gradient-to-r from-transparent via-white/[0.07] to-transparent group-hover:left-[120%] transition-all duration-[1200ms] ease-in-out" />
+            </div>
             {/* 모서리 장식 */}
             {["top-3 left-3", "top-3 right-3", "bottom-3 left-3", "bottom-3 right-3"].map(
               (pos) => (
@@ -103,7 +139,7 @@ export function Distillery() {
                 />
               )
             )}
-          </div>
+          </motion.div>
           {/* 후광 */}
           <div
             className="absolute inset-0 -z-10"

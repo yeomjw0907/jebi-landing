@@ -4,6 +4,7 @@ import { Specs } from "@/components/Specs";
 import { Serve } from "@/components/Serve";
 import { Scenes } from "@/components/Scenes";
 import { Distillery } from "@/components/Distillery";
+import { LaunchCta } from "@/components/LaunchCta";
 import { Footer } from "@/components/Footer";
 import { FlyingSwallow } from "@/components/FlyingSwallow";
 import { AgeGate } from "@/components/AgeGate";
@@ -19,6 +20,7 @@ export default function Home() {
       <Serve />
       <Scenes />
       <Distillery />
+      <LaunchCta />
       <Footer />
     </main>
   );

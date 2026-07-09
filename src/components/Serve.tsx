@@ -7,8 +7,9 @@ const SERVES = [
   {
     latin: "NEAT — 차게, 그대로",
     title: "스트레이트",
-    desc: "냉장고에서 꺼내 잔에 그대로. 청주가 남긴 은은한 단맛과 곡물의 향이 가장 또렷하게 열립니다. 담백한 한식 안주와 나란히.",
-    ratio: "제비 100",
+    desc: "냉장고에서 꺼내 잔에 그대로. 청주가 남긴 은은한 단맛과 곡물의 향이 가장 또렷하게 열립니다.",
+    ratio: [{ label: "제비", parts: 1, filled: true }],
+    chips: ["4°C 차게", "소주잔", "담백한 한식"],
     glass: (
       /* 소주잔 */
       <svg viewBox="0 0 80 80" className="w-16 h-16 md:w-20 md:h-20" aria-hidden>
@@ -26,8 +27,12 @@ const SERVES = [
   {
     latin: "HIGHBALL — 가볍게, 길게",
     title: "제비 하이볼",
-    desc: "제비 1 : 탄산수 3, 얼음 가득, 레몬 한 조각. 17도의 부드러움이 탄산을 만나 더 가벼워집니다. 안주 없이도 좋은 긴 잔.",
-    ratio: "제비 1 : 탄산 3",
+    desc: "제비 1에 탄산수 3, 얼음 가득, 레몬 한 조각. 17도의 부드러움이 탄산을 만나 더 가벼워집니다.",
+    ratio: [
+      { label: "제비", parts: 1, filled: true },
+      { label: "탄산수", parts: 3, filled: false },
+    ],
+    chips: ["얼음 가득", "하이볼 잔", "레몬 한 조각"],
     glass: (
       /* 하이볼 잔 */
       <svg viewBox="0 0 80 80" className="w-16 h-16 md:w-20 md:h-20" aria-hidden>
@@ -46,6 +51,38 @@ const SERVES = [
     ),
   },
 ];
+
+function RatioBar({ ratio }: { ratio: (typeof SERVES)[number]["ratio"] }) {
+  const total = ratio.reduce((s, r) => s + r.parts, 0);
+  return (
+    <div>
+      <div className="flex h-2.5 w-full overflow-hidden rounded-full">
+        {ratio.map((r, i) =>
+          Array.from({ length: r.parts }).map((_, j) => (
+            <motion.div
+              key={`${i}-${j}`}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 + (i * 2 + j) * 0.12 }}
+              className={`h-full origin-left border-r-2 border-paper-2 last:border-r-0 ${
+                r.filled ? "bg-amber" : "bg-ink/15"
+              }`}
+              style={{ width: `${100 / total}%` }}
+            />
+          ))
+        )}
+      </div>
+      <div className="mt-2 flex justify-between font-latin text-[10px] tracking-[0.2em] text-ink/50">
+        {ratio.map((r) => (
+          <span key={r.label}>
+            {r.label} {r.parts}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Serve() {
   return (
@@ -90,7 +127,12 @@ export function Serve() {
               </div>
 
               <div className="relative">
-                <div className="text-amber mb-8">{s.glass}</div>
+                <div className="flex items-start justify-between">
+                  <div className="text-amber mb-8 drop-shadow-sm">{s.glass}</div>
+                  <span className="font-brush text-3xl text-ink/15 group-hover:text-amber/50 transition-colors">
+                    {i === 0 ? "壹" : "貳"}
+                  </span>
+                </div>
                 <p className="font-latin tracking-[0.3em] text-[10px] text-ink/50 mb-3">
                   {s.latin}
                 </p>
@@ -98,11 +140,19 @@ export function Serve() {
                 <p className="text-sm md:text-base leading-relaxed opacity-70 font-light mb-8">
                   {s.desc}
                 </p>
-                <div
-                  className="inline-block border px-4 py-2 font-latin text-xs tracking-[0.2em] text-ink/70"
-                  style={{ borderColor: "var(--line-paper)" }}
-                >
-                  {s.ratio}
+
+                <RatioBar ratio={s.ratio} />
+
+                <div className="mt-7 flex flex-wrap gap-2">
+                  {s.chips.map((c) => (
+                    <span
+                      key={c}
+                      className="border px-3 py-1.5 text-[11px] md:text-xs text-ink/70 group-hover:border-amber/50 transition-colors"
+                      style={{ borderColor: "var(--line-paper)" }}
+                    >
+                      {c}
+                    </span>
+                  ))}
                 </div>
               </div>
             </motion.article>

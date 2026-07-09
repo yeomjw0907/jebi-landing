@@ -26,17 +26,41 @@ export function AgeGate() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.7 } }}
-          className="fixed inset-0 z-[100] bg-ink/95 backdrop-blur-md flex items-center justify-center px-6"
+          className="fixed inset-0 z-[100] flex items-center justify-center px-6"
           role="dialog"
           aria-modal="true"
           aria-label="성인 인증"
         >
+          {/* 다크 무드샷 배경 */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/jebi-dark.png"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover blur-md scale-110 brightness-[0.35]"
+          />
+          <div className="absolute inset-0 bg-ink/70" />
           <motion.div
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1, transition: { delay: 0.15, duration: 0.8, ease: [0.22, 1, 0.36, 1] } }}
             exit={{ y: -20, opacity: 0 }}
-            className="max-w-md w-full text-center border border-white/10 bg-black/60 px-8 py-12"
+            className="relative max-w-md w-full text-center border border-white/10 bg-black/70 backdrop-blur-sm px-8 py-12"
           >
+            {/* 라벨 모서리 장식 */}
+            {["top-3 left-3", "top-3 right-3", "bottom-3 left-3", "bottom-3 right-3"].map(
+              (pos) => (
+                <div
+                  key={pos}
+                  className={`absolute ${pos} w-2 h-2 border-amber/60`}
+                  style={{
+                    borderTopWidth: pos.includes("top") ? 1 : 0,
+                    borderBottomWidth: pos.includes("bottom") ? 1 : 0,
+                    borderLeftWidth: pos.includes("left") ? 1 : 0,
+                    borderRightWidth: pos.includes("right") ? 1 : 0,
+                  }}
+                />
+              )
+            )}
             <Swallow className="w-10 h-10 text-amber mx-auto mb-6" />
             <p className="font-latin tracking-[0.4em] text-[10px] text-paper-dim mb-3">
               044 DISTILLERY
