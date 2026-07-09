@@ -8,7 +8,7 @@ import {
   useReducedMotion,
   MotionValue,
 } from "framer-motion";
-/* eslint-disable @next/next/no-img-element */
+import { BottleTurntable } from "./BottleTurntable";
 
 const CHAPTERS = [
   {
@@ -30,7 +30,7 @@ const CHAPTERS = [
     latin: "CHAPTER THREE — THE FINISH",
     title: "부드럽게 넘기고,\n담백하게 맺는다",
     body: "부드러운 목넘김과 깔끔한 피니시. 증류주가 처음이어도 좋습니다. 식사와 함께, 혹은 하루의 끝에 스트레이트 한 잔.",
-    align: "left" as const,
+    align: "right" as const,
   },
 ];
 
@@ -85,16 +85,11 @@ export function ScrollStage() {
     offset: ["start start", "end end"],
   });
 
-  // 병의 여정: 중앙 → 우측으로 기울며 → 좌측으로 → 다시 중앙 크게
+  // 병의 여정: 중앙 → 우측 → 좌측 → 다시 중앙 크게 (회전은 턴테이블 프레임이 담당)
   const x = useTransform(
     scrollYProgress,
     [0, 0.3, 0.62, 1],
-    reduced ? ["0vw", "0vw", "0vw", "0vw"] : ["0vw", "24vw", "-24vw", "0vw"]
-  );
-  const rotate = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.62, 1],
-    reduced ? [0, 0, 0, 0] : [0, 10, -10, 0]
+    reduced ? ["0vw", "0vw", "0vw", "0vw"] : ["0vw", "22vw", "-22vw", "0vw"]
   );
   const scale = useTransform(scrollYProgress, [0, 0.3, 0.62, 1], [1, 0.9, 0.9, 1.06]);
 
@@ -115,16 +110,15 @@ export function ScrollStage() {
           style={{ background: glowBg }}
         />
 
-        {/* 병 — 실사 컷아웃 */}
+        {/* 병 — 스크롤 스크럽 턴테이블 (프레임 없으면 정지 컷아웃 폴백) */}
         <motion.div
-          style={{ x, rotate, scale }}
+          style={{ x, scale }}
           className="absolute inset-0 flex items-center justify-center z-10"
         >
-          <img
-            src="/bottle-cutout.png"
-            alt="제비 360ml 병"
-            className="h-[56svh] md:h-[62svh] w-auto drop-shadow-[0_40px_70px_rgba(0,0,0,0.85)]"
-            style={{ filter: "brightness(0.96) contrast(1.04)" }}
+          <BottleTurntable
+            progress={scrollYProgress}
+            frameCount={64}
+            className="h-[56svh] md:h-[62svh] w-auto drop-shadow-[0_40px_70px_rgba(0,0,0,0.85)] [filter:brightness(0.96)_contrast(1.04)_drop-shadow(0_40px_70px_rgba(0,0,0,0.85))]"
           />
         </motion.div>
 
