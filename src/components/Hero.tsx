@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { VideoLoop } from "./VideoLoop";
+import { trackCta } from "@/lib/analytics";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -40,6 +41,7 @@ export function Hero() {
           href="https://044yangjo.com/"
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackCta("yangjo_site", "044yangjo", "hero")}
           className="hidden sm:block font-latin tracking-[0.25em] text-xs text-paper-dim hover:text-amber transition-colors"
         >
           044YANGJO.COM

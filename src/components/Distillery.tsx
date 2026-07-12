@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
+import { trackCta } from "@/lib/analytics";
 
 const MINI_STATS = [
   { label: "위치", value: "세종 조치원" },
@@ -82,6 +83,7 @@ export function Distillery() {
               href="https://044yangjo.com/"
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackCta("yangjo_site", "044yangjo", "distillery")}
               className="border border-amber/60 text-amber-2 px-6 py-3 font-latin text-xs tracking-[0.25em] hover:bg-amber hover:text-ink transition-colors duration-300"
             >
               044YANGJO.COM
@@ -90,6 +92,9 @@ export function Distillery() {
               href="https://www.instagram.com/sak_spirits_044"
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                trackCta("instagram_follow", "instagram", "distillery")
+              }
               className="border px-6 py-3 font-latin text-xs tracking-[0.25em] text-paper-dim hover:border-paper hover:text-paper transition-colors duration-300"
               style={{ borderColor: "var(--line-dark)" }}
             >

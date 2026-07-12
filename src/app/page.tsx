@@ -7,19 +7,35 @@ import { Distillery } from "@/components/Distillery";
 import { LaunchCta } from "@/components/LaunchCta";
 import { Footer } from "@/components/Footer";
 import { AgeGate } from "@/components/AgeGate";
+import { SectionTracker } from "@/components/SectionTracker";
 
 export default function Home() {
   return (
     <main>
       <AgeGate />
-      <Hero />
+      <SectionTracker name="hero">
+        <Hero />
+      </SectionTracker>
+      {/* ScrollStage는 자체 chapter_view 이벤트로 추적 (420vh 스티키 구조) */}
       <ScrollStage />
-      <Specs />
-      <Serve />
-      <Scenes />
-      <Distillery />
-      <LaunchCta />
-      <Footer />
+      <SectionTracker name="specs">
+        <Specs />
+      </SectionTracker>
+      <SectionTracker name="serve">
+        <Serve />
+      </SectionTracker>
+      <SectionTracker name="scenes">
+        <Scenes />
+      </SectionTracker>
+      <SectionTracker name="distillery">
+        <Distillery />
+      </SectionTracker>
+      <SectionTracker name="launch_cta">
+        <LaunchCta />
+      </SectionTracker>
+      <SectionTracker name="footer">
+        <Footer />
+      </SectionTracker>
     </main>
   );
 }

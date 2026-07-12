@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
   motion,
   useScroll,
@@ -9,6 +9,7 @@ import {
   MotionValue,
 } from "framer-motion";
 import { BottleTurntable } from "./BottleTurntable";
+import { track } from "@/lib/analytics";
 
 const CHAPTERS = [
   {
@@ -84,6 +85,22 @@ export function ScrollStage() {
     target: ref,
     offset: ["start start", "end end"],
   });
+
+  // 챕터 도달 추적 — 어느 챕터에서 스토리를 떠나는지 본다
+  const seenChapters = useRef(new Set<number>());
+  useEffect(() => {
+    return scrollYProgress.on("change", (v) => {
+      if (v <= 0) return;
+      const chapter = v >= 0.98 ? 4 : Math.min(Math.floor(v * 3) + 1, 3);
+      if (seenChapters.current.has(chapter)) return;
+      seenChapters.current.add(chapter);
+      if (chapter === 4) {
+        track("story_complete");
+      } else {
+        track("chapter_view", { chapter });
+      }
+    });
+  }, [scrollYProgress]);
 
   // 병의 여정: 중앙 → 우측 → 좌측 → 다시 중앙 크게 (회전은 턴테이블 프레임이 담당)
   const x = useTransform(

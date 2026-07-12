@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
 import { Swallow } from "./Swallow";
+import { trackCta } from "@/lib/analytics";
 
 /** 출시 CTA — 라벨 붓글씨를 중심에 둔 마감 인사 */
 export function LaunchCta() {
@@ -72,6 +73,9 @@ export function LaunchCta() {
               href="https://www.instagram.com/sak_spirits_044"
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                trackCta("instagram_follow", "instagram", "launch_cta")
+              }
               className="bg-amber text-ink px-8 py-4 font-display text-sm tracking-wider hover:bg-amber-2 transition-colors"
             >
               출시 소식 받기
@@ -80,6 +84,7 @@ export function LaunchCta() {
               href="https://044yangjo.com/"
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackCta("yangjo_site", "044yangjo", "launch_cta")}
               className="border px-8 py-4 font-display text-sm tracking-wider text-paper-dim hover:border-paper hover:text-paper transition-colors"
               style={{ borderColor: "var(--line-dark)" }}
             >

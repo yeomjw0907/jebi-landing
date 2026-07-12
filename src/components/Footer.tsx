@@ -1,4 +1,7 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
+import { trackCta } from "@/lib/analytics";
 
 export function Footer() {
   return (
@@ -51,6 +54,7 @@ export function Footer() {
                 href="https://044yangjo.com/"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackCta("yangjo_site", "044yangjo", "footer")}
                 className="font-latin tracking-[0.2em] text-[11px] hover:text-amber-2 transition-colors"
               >
                 044YANGJO.COM
@@ -59,6 +63,9 @@ export function Footer() {
                 href="https://www.instagram.com/sak_spirits_044"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() =>
+                  trackCta("instagram_follow", "instagram", "footer")
+                }
                 className="font-latin tracking-[0.2em] text-[11px] hover:text-amber-2 transition-colors"
               >
                 INSTAGRAM

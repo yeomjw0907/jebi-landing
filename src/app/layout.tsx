@@ -6,6 +6,7 @@ import {
   Marcellus,
 } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@/components/Analytics";
 
 const songMyung = Song_Myung({
   weight: "400",
@@ -58,7 +59,10 @@ export default function RootLayout({
       lang="ko"
       className={`${songMyung.variable} ${nanumBrush.variable} ${notoSerifKR.variable} ${marcellus.variable} antialiased`}
     >
-      <body className="bg-ink text-paper font-body grain">{children}</body>
+      <body className="bg-ink text-paper font-body grain">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

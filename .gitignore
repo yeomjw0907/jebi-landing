@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# GA 측정 ID / 픽셀 ID는 어차피 공개되는 값 — 배포 어디서든 작동하도록 커밋한다
+!.env
 
 # vercel
 .vercel

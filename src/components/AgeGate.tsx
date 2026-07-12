@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Swallow } from "./Swallow";
+import { trackAgeGate } from "@/lib/analytics";
 
 const KEY = "jebi-age-verified";
 
@@ -11,12 +12,24 @@ export function AgeGate() {
   const [denied, setDenied] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem(KEY) !== "1") setOpen(true);
+    // sessionStorage는 클라이언트에서만 읽을 수 있어 effect에서 열어야 한다
+    // (SSR HTML은 게이트 닫힘 상태 — hydration mismatch 방지)
+    if (sessionStorage.getItem(KEY) !== "1") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setOpen(true);
+      trackAgeGate("view");
+    }
   }, []);
 
   const confirm = () => {
     sessionStorage.setItem(KEY, "1");
     setOpen(false);
+    trackAgeGate("confirm");
+  };
+
+  const deny = () => {
+    setDenied(true);
+    trackAgeGate("deny");
   };
 
   return (
@@ -87,7 +100,7 @@ export function AgeGate() {
                   네, 성인입니다
                 </button>
                 <button
-                  onClick={() => setDenied(true)}
+                  onClick={deny}
                   className="border border-white/20 px-8 py-3 font-display text-sm tracking-wider text-paper-dim hover:border-white/50 transition-colors cursor-pointer"
                 >
                   아니요

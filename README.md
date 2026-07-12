@@ -30,6 +30,28 @@ npm run dev    # http://localhost:3000
 npm run build  # 프로덕션 빌드
 ```
 
+## 트래킹 (GA4 + Meta Pixel)
+
+메타 광고 → 랜딩 → 구매(스토어 링크) 퍼널 분석용. `.env`에 ID를 넣으면 활성화된다:
+
+```bash
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX        # GA4 측정 ID
+NEXT_PUBLIC_META_PIXEL_ID=            # Meta Pixel ID
+```
+
+| 이벤트 | 발생 시점 | 용도 |
+|--------|----------|------|
+| `age_gate_view` / `age_gate_confirm` / `age_gate_deny` | 성인 인증 게이트 | 광고 유입 후 첫 이탈 지점 |
+| `section_view` `{section_name}` | 섹션이 화면 중앙에 진입 (최초 1회) | 섹션별 도달률 → 이탈 위치 |
+| `section_dwell` `{section_name, dwell_seconds}` | 섹션 이탈 시 (1초 이상 머문 경우) | 후킹 포인트 판단 |
+| `chapter_view` `{chapter}` / `story_complete` | 스크롤 스테이지 챕터 도달 | 스토리 완주율 |
+| `cta_click` `{cta_name, destination, section}` | CTA 클릭 | **전환 — GA4 키 이벤트로 지정할 것** |
+
+- 픽셀 매핑: 게이트 통과 → `ViewContent`, 인스타 클릭 → `Lead`, 스토어 클릭(`cta_name: "store"`) → `InitiateCheckout`
+- 스토어 링크 추가 시: `trackCta("store", "스토어명", "섹션명")` 호출하면 픽셀 매핑까지 자동
+- GA4 쪽 설정: 관리 > 키 이벤트에 `cta_click` 등록, 탐색 > 유입경로 탐색으로 `age_gate_confirm → section_view → cta_click` 퍼널 구성
+- 광고 URL에는 UTM 필수: `?utm_source=meta&utm_medium=paid_social&utm_campaign=...`
+
 ## 제품 정보
 
 | 항목 | 내용 |
