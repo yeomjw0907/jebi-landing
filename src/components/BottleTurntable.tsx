@@ -20,6 +20,7 @@ export function BottleTurntable({
   className?: string;
 }) {
   const imgRef = useRef<HTMLImageElement>(null);
+  const lastIdxRef = useRef(-1);
   const [ready, setReady] = useState(false);
 
   // 프레임 프리로드
@@ -48,6 +49,8 @@ export function BottleTurntable({
   useMotionValueEvent(progress, "change", (v) => {
     if (!ready || !imgRef.current) return;
     const idx = Math.max(0, Math.min(frameCount - 1, Math.round(v * (frameCount - 1))));
+    if (idx === lastIdxRef.current) return;
+    lastIdxRef.current = idx;
     imgRef.current.src = src(idx);
   });
 

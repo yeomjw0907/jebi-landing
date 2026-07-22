@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import {
   motion,
   useScroll,
+  useSpring,
   useTransform,
   useReducedMotion,
   MotionValue,
@@ -102,16 +103,26 @@ export function ScrollStage() {
     });
   }, [scrollYProgress]);
 
+  // 마우스 휠은 한 틱에 ~100px씩 계단식으로 들어와 프레임이 건너뛰며 덜컥거린다.
+  // 스프링으로 진행도를 관성 있게 이어 붙여 데스크톱에서도 터치처럼 부드럽게 회전시킨다.
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 65,
+    damping: 22,
+    mass: 0.4,
+    restDelta: 0.0004,
+  });
+  const bottleProgress = reduced ? scrollYProgress : smoothProgress;
+
   // 병의 여정: 중앙 → 우측 → 좌측 → 다시 중앙 크게 (회전은 턴테이블 프레임이 담당)
   const x = useTransform(
-    scrollYProgress,
+    bottleProgress,
     [0, 0.3, 0.62, 1],
     reduced ? ["0vw", "0vw", "0vw", "0vw"] : ["0vw", "22vw", "-22vw", "0vw"]
   );
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.62, 1], [1, 0.9, 0.9, 1.06]);
+  const scale = useTransform(bottleProgress, [0, 0.3, 0.62, 1], [1, 0.9, 0.9, 1.06]);
 
   // 광원도 병을 따라간다
-  const glowX = useTransform(scrollYProgress, [0, 0.3, 0.62, 1], ["50%", "72%", "28%", "50%"]);
+  const glowX = useTransform(bottleProgress, [0, 0.3, 0.62, 1], ["50%", "72%", "28%", "50%"]);
   const glowBg = useTransform(
     glowX,
     (v) =>
@@ -133,7 +144,7 @@ export function ScrollStage() {
           className="absolute inset-0 flex items-center justify-center z-10"
         >
           <BottleTurntable
-            progress={scrollYProgress}
+            progress={bottleProgress}
             frameCount={64}
             className="h-[56svh] md:h-[62svh] w-auto drop-shadow-[0_40px_70px_rgba(0,0,0,0.85)] [filter:brightness(0.96)_contrast(1.04)_drop-shadow(0_40px_70px_rgba(0,0,0,0.85))]"
           />
