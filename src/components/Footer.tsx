@@ -33,7 +33,7 @@ export function Footer() {
             <p className="text-xs text-paper-dim leading-relaxed font-light">
               봄을 물고 온 증류주, 제비.
               <br />
-              국내산 쌀과 밀, 청주의 결.
+              국내산 쌀과 밀, 조청의 결.
             </p>
           </div>
 

@@ -57,20 +57,21 @@ export function LaunchCta() {
           </div>
 
           <p className="font-latin tracking-[0.4em] text-[10px] md:text-xs text-amber-2 mb-4">
-            SPRING 2026 — COMING SOON
+            SPRING 2026 — NOW AVAILABLE
           </p>
           <h2 className="font-display text-3xl md:text-5xl leading-snug mb-6">
-            2026년 4월,
+            2026년 봄,
             <br />
-            제비가 날아듭니다
+            제비가 날아들었습니다
           </h2>
           <p className="text-paper-dim text-sm md:text-base font-light leading-relaxed mb-12">
-            출시 소식과 입점처 안내는 인스타그램에서 가장 먼저 전해드립니다.
+            구매와 입점처 안내는 공식 홈페이지에서, 새로운 소식은
+            인스타그램에서 만나보세요.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://www.instagram.com/sak_spirits_044"
+              href="https://044yangjo.com/"
               target="_blank"
               rel="noreferrer"
               onClick={() =>
@@ -78,17 +79,17 @@ export function LaunchCta() {
               }
               className="bg-amber text-ink px-8 py-4 font-display text-sm tracking-wider hover:bg-amber-2 transition-colors"
             >
-              출시 소식 받기
+              제비 구매하기
             </a>
             <a
-              href="https://044yangjo.com/"
+              href="https://www.instagram.com/sak_spirits_044"
               target="_blank"
               rel="noreferrer"
               onClick={() => trackCta("yangjo_site", "044yangjo", "launch_cta")}
               className="border px-8 py-4 font-display text-sm tracking-wider text-paper-dim hover:border-paper hover:text-paper transition-colors"
               style={{ borderColor: "var(--line-dark)" }}
             >
-              양조장 더 보기
+              인스타그램 팔로우
             </a>
           </div>
         </motion.div>

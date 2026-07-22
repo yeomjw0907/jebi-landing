@@ -39,7 +39,7 @@ const marcellus = Marcellus({
 export const metadata: Metadata = {
   title: "제비 — 공사사양조 | 봄을 물고 온 증류주",
   description:
-    "공사사양조(044 DISTILLERY)의 새로운 일반증류주, 제비. 국내산 쌀과 밀, 청주의 은은한 단맛. ABV 17% / 360ml. 2026년 4월 출시.",
+    "공사사양조(044 DISTILLERY)의 새로운 일반증류주, 제비. 국내산 쌀과 밀, 조청의 은은한 단맛. ABV 17% / 360ml. 2026년 4월 출시.",
   openGraph: {
     title: "제비 — 공사사양조",
     description:
