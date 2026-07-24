@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { track } from "@/lib/analytics";
 
 const TYPE_OPTIONS = [
   { value: "stockist", label: "입점·제휴 문의", desc: "음식점·바틀샵·유통사" },
@@ -38,6 +39,7 @@ export function LeadForm() {
 
     if (res?.ok) {
       setStatus("done");
+      track("lead_submit", { lead_type: type });
       form.reset();
     } else {
       setStatus("error");
