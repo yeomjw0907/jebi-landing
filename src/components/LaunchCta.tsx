@@ -6,6 +6,8 @@ import { Swallow } from "./Swallow";
 import { trackCta } from "@/lib/analytics";
 
 /** 출시 CTA — 라벨 붓글씨를 중심에 둔 마감 인사 */
+const STORE_URL = process.env.NEXT_PUBLIC_STORE_URL || "https://044yangjo.com/";
+
 export function LaunchCta() {
   return (
     <section className="relative bg-black text-paper py-28 md:py-40 overflow-hidden text-center">
@@ -71,7 +73,7 @@ export function LaunchCta() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href="https://044yangjo.com/"
+              href={STORE_URL}
               target="_blank"
               rel="noreferrer"
               onClick={() =>
