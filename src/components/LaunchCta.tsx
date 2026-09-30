@@ -6,7 +6,8 @@ import { Swallow } from "./Swallow";
 import { trackCta } from "@/lib/analytics";
 
 /** 출시 CTA — 라벨 붓글씨를 중심에 둔 마감 인사 */
-const STORE_URL = process.env.NEXT_PUBLIC_STORE_URL || "https://044yangjo.com/";
+const STORE_URL =
+  process.env.NEXT_PUBLIC_STORE_URL || "https://smartstore.naver.com/sak044";
 
 export function LaunchCta() {
   return (
@@ -76,9 +77,7 @@ export function LaunchCta() {
               href={STORE_URL}
               target="_blank"
               rel="noreferrer"
-              onClick={() =>
-                trackCta("instagram_follow", "instagram", "launch_cta")
-              }
+              onClick={() => trackCta("store", "smartstore", "launch_cta")}
               className="bg-amber text-ink px-8 py-4 font-display text-sm tracking-wider hover:bg-amber-2 transition-colors"
             >
               제비 구매하기
@@ -87,7 +86,9 @@ export function LaunchCta() {
               href="https://www.instagram.com/sak_spirits_044"
               target="_blank"
               rel="noreferrer"
-              onClick={() => trackCta("yangjo_site", "044yangjo", "launch_cta")}
+              onClick={() =>
+                trackCta("instagram_follow", "instagram", "launch_cta")
+              }
               className="border px-8 py-4 font-display text-sm tracking-wider text-paper-dim hover:border-paper hover:text-paper transition-colors"
               style={{ borderColor: "var(--line-dark)" }}
             >

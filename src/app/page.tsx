@@ -10,7 +10,8 @@ import { Footer } from "@/components/Footer";
 import { AgeGate } from "@/components/AgeGate";
 import { SectionTracker } from "@/components/SectionTracker";
 
-const STORE_URL = process.env.NEXT_PUBLIC_STORE_URL || "https://044yangjo.com/";
+const STORE_URL =
+  process.env.NEXT_PUBLIC_STORE_URL || "https://smartstore.naver.com/sak044";
 
 const jsonLd = {
   "@context": "https://schema.org",
