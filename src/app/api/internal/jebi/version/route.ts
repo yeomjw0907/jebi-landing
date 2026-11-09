@@ -1,0 +1,1 @@
+import {version} from '@/lib/jebi-runtime';export async function GET(){return Response.json(await version(),{headers:{'Cache-Control':'no-store'}});}

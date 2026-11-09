@@ -1,0 +1,1 @@
+import {drain} from '@/lib/jebi-runtime';export const maxDuration=300;export async function GET(r:Request){if(!process.env.CRON_SECRET||r.headers.get('authorization')!=='Bearer '+process.env.CRON_SECRET)return new Response('Unauthorized',{status:401});return Response.json(await drain(),{headers:{'Cache-Control':'no-store'}});}
