@@ -1,0 +1,9 @@
+{
+  "stage": "production",
+  "url": "https://yldmzjifjwvuwcrxyuwh.supabase.co",
+  "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlsZG16amlmand2dXdjcnh5dXdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxMjg1ODMsImV4cCI6MjEwOTcwNDU4M30.s2WIWO5lNyoO78SEAET63wjqzKkJ8muWGIOzhC180NE",
+  "schema": "jebi_live",
+  "sourceUrl": "https://dgvfzaoyqtjbfzxqdzqf.supabase.co",
+  "sourceKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmZ6YW95cXRqYmZ6eHFkenFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4ODI1NjcsImV4cCI6MjEwMDQ1ODU2N30._R0DFKyq2Hng1W4NuUr1UJrRVwOpW8t29QSDAGD2fbk",
+  "sourceSchema": "public"
+}

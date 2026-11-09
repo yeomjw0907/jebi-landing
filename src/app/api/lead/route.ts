@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import {submitLead} from "@/lib/jebi-runtime";
 
 /**
  * 리드 수집 API — 입점·제휴 문의 / 출시 소식 알림
@@ -49,33 +50,9 @@ export async function POST(request: Request) {
     );
   }
 
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    return NextResponse.json(
-      { error: "접수 시스템 점검 중입니다. 인스타그램 DM으로 문의해 주세요." },
-      { status: 503 }
-    );
-  }
-
-  const res = await fetch(`${url}/rest/v1/jebi_leads`, {
-    method: "POST",
-    headers: {
-      apikey: key,
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    },
-    body: JSON.stringify({ type, name, contact, message }),
-  });
-
-  if (!res.ok) {
-    console.error("lead insert failed:", res.status, await res.text());
-    return NextResponse.json(
-      { error: "접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요." },
-      { status: 502 }
-    );
-  }
-
-  return NextResponse.json({ ok: true });
+  const requestId=request.headers.get('Idempotency-Key')||crypto.randomUUID();
+  if(!/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestId))return NextResponse.json({error:'접수 요청을 확인해주세요.'},{status:400});
+  try{await submitLead(requestId,{type,name,contact,message});}
+  catch(e){if(e instanceof Error&&e.message==='idempotency conflict')return NextResponse.json({error:'문의 내용이 변경되었습니다. 다시 확인해주세요.'},{status:409});console.error('lead intake unavailable');return NextResponse.json({error:'접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'},{status:502});}
+  return NextResponse.json({ok:true});
 }

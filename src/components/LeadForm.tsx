@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { track } from "@/lib/analytics";
 
@@ -16,28 +16,43 @@ export function LeadForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const pendingRequest = useRef<{ hash: string; id: string } | null>(null);
+  const inFlight = useRef(false);
+  const retryStorageKey = "jebi-pending-request";
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (status === "sending") return;
+    if (inFlight.current || status === "sending") return;
+    inFlight.current = true;
     const form = e.currentTarget;
     const data = new FormData(form);
     setStatus("sending");
     setErrorMsg("");
 
-    const res = await fetch("/api/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        type,
-        name: data.get("name"),
-        contact: data.get("contact"),
-        message: data.get("message"),
-        agree: data.get("agree") === "on",
-        website: data.get("website"), // honeypot
-      }),
-    }).catch(() => null);
+    const requestBody = JSON.stringify({
+      type, name: data.get("name"), contact: data.get("contact"),
+      message: data.get("message"), agree: data.get("agree") === "on",
+      website: data.get("website"),
+    });
+    let res: Response | null = null;
+    try {
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(requestBody));
+      const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+      let prior = pendingRequest.current;
+      try { prior = JSON.parse(sessionStorage.getItem(retryStorageKey) || "null") || prior; } catch { /* memory fallback */ }
+      const pending = prior?.hash === hash && typeof prior.id === "string" ? prior : { hash, id: crypto.randomUUID() };
+      pendingRequest.current = pending;
+      try { sessionStorage.setItem(retryStorageKey, JSON.stringify(pending)); } catch { /* memory fallback */ }
+      res = await fetch("/api/lead", {
+        method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": pending.id },
+        body: requestBody,
+      });
+    } catch { /* preserve request key after uncertain response */ }
+    finally { inFlight.current = false; }
 
     if (res?.ok) {
+      pendingRequest.current = null;
+      try { sessionStorage.removeItem(retryStorageKey); } catch { /* memory fallback */ }
       setStatus("done");
       track("lead_submit", { lead_type: type });
       form.reset();
