@@ -1,9 +1,3 @@
 {
-  "ignoreCommand": "node -e \"process.exit(process.env.VERCEL_ENV==='production'?1:0)\"",
-  "crons": [
-    {
-      "path": "/api/internal/jebi/drain",
-      "schedule": "*/5 * * * *"
-    }
-  ]
+  "ignoreCommand": "node -e \"process.exit(process.env.VERCEL_ENV==='production'?1:0)\""
 }
