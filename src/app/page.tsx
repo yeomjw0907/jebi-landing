@@ -10,31 +10,37 @@ import { Footer } from "@/components/Footer";
 import { AgeGate } from "@/components/AgeGate";
 import { SectionTracker } from "@/components/SectionTracker";
 
-const STORE_URL =
-  process.env.NEXT_PUBLIC_STORE_URL || "https://smartstore.naver.com/sak044";
+const siteUrl = new URL(
+  "/",
+  process.env.NEXT_PUBLIC_SITE_URL || "https://jebi-landing.vercel.app",
+).href;
+const organizationId = "https://044yangjo.com/#organization";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": siteUrl + "#website",
+      name: "제비 — 044 DISTILLERY",
+      alternateName: "제비",
+      url: siteUrl,
+      inLanguage: "ko",
+      publisher: { "@id": organizationId },
+    },
     {
       "@type": "Product",
       name: "제비",
       alternateName: "JEBI",
       description:
         "공사사양조의 일반증류주. 삭(SAK) 증류원액 베이스의 저도수 라인으로, 조청에서 오는 자연스러운 단맛과 곡물의 풍미. ABV 17%, 360ml.",
-      image: `${process.env.NEXT_PUBLIC_SITE_URL || ""}/jebi-studio.png`,
+      image: new URL("jebi-studio.png", siteUrl).href,
       brand: { "@type": "Brand", name: "공사사양조 (044 DISTILLERY)" },
       category: "일반증류주",
-      offers: {
-        "@type": "Offer",
-        price: "6000",
-        priceCurrency: "KRW",
-        availability: "https://schema.org/InStock",
-        url: STORE_URL,
-      },
     },
     {
       "@type": "Organization",
+      "@id": organizationId,
       name: "농업회사법인 주식회사 공사사양조",
       alternateName: "044 DISTILLERY",
       url: "https://044yangjo.com/",
